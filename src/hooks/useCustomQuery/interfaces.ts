@@ -4,7 +4,7 @@ import type { OperationVariables, QueryResult } from '@apollo/client';
 export interface QueryResultExtend<TData, TVariables> extends QueryResult<TData, TVariables> {
     // fallback: boolean;
     // fallbackCreatedAt: string;
-    status: string;
+    from: string;
 }
 
 export type UseQuery = Parameters<typeof useQuery>;

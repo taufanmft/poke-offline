@@ -33,7 +33,7 @@ const gqlVariables = {
 
 
 const Home = () => {
-    const { data, loading } = useCustomQuery<PokemonResponse>(GET_POKEMONS, {
+    const { data, loading, from } = useCustomQuery<PokemonResponse>(GET_POKEMONS, {
         variables: gqlVariables,
     });
     const pokemons = data?.pokemons?.results ?? [];
@@ -41,6 +41,7 @@ const Home = () => {
         <HomeWrapper>
             <h1>Poke Offline</h1>
             {loading && <p>Loading...</p>}
+            <p>Accessing from: {from}</p>
             <PokemonsWrapper>
                 {pokemons.map(pokemon => (
                     <PokeCard img={pokemon.image} name={pokemon.name} />

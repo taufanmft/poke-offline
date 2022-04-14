@@ -11,26 +11,32 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
     console.log('the options', options, 'the query', query)
     const result = useQuery<TData, TVariables>(query, options);
     const [farin, setFarin] = useState<TData>();
-    console.log('error', result.error)
-
+    const [finish, setFinish] = useState(false);
+    //debug state
+    const [from, setFrom] = useState('network');
    useEffect(() => {
        (async function () {
            if (!result.loading) {
                const key = hash({options});
-
-               if (result.data) {
-                   set(key, result.data);
-                   console.log('tasya', result.data)
-                   setFarin(result.data);
-               } else {
-                   const tania = await get(key);
-                   setFarin(tania)
+               if (!finish) {
+                   if (result.data) {
+                       set(key, result.data);
+                       console.log('tasya', result.data)
+                       setFarin(result.data);
+                       setFinish(true);
+                       setFrom('network');
+                   } else {
+                       const tania = await get(key);
+                       setFarin(tania)
+                       setFinish(true);
+                       setFrom('cache');
+                   }
                }
            }
        }());
-    }, [options, result.data, result.loading]);
+    }, [finish, options, result.data, result.loading]);
 
-    return {...result, status: 'ok', data: farin};
+    return {...result, data: farin, from};
 };
 
 export default useCustomQuery;
