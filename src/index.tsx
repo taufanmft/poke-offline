@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import {
@@ -15,6 +14,7 @@ import {
     ApolloProvider,
 } from "@apollo/client";
 import Tasya from './pages/tasya';
+import Home from "./pages/home";
 
 const client = new ApolloClient({
     uri: 'https://graphql-pokeapi.graphcdn.app/',
@@ -26,7 +26,7 @@ ReactDOM.render(
       <BrowserRouter>
           <ApolloProvider client={client}>
           <Routes>
-              <Route path="/" element={<App />} />
+              <Route path="/" element={<Home />} />
               <Route path="/tasya" element={<Tasya />} />
           </Routes>
           </ApolloProvider>
