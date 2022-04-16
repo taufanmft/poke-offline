@@ -2,6 +2,7 @@ import { HomeWrapper, PokemonsWrapper } from './styles';
 import {gql} from "@apollo/client";
 import PokeCard from "./components/PokeCard";
 import useCustomQuery from "../../hooks/useCustomQuery";
+import {useState} from "react";
 
 
 type PokemonResponse = {
@@ -33,7 +34,8 @@ const gqlVariables = {
 
 
 const Home = () => {
-    const { data, loading, from } = useCustomQuery<PokemonResponse>(GET_POKEMONS, {
+    const [offset, setOffset] = useState(31);
+    const { data, loading, from, refetch } = useCustomQuery<PokemonResponse>(GET_POKEMONS, {
         variables: gqlVariables,
     });
     const pokemons = data?.pokemons?.results ?? [];
@@ -47,6 +49,13 @@ const Home = () => {
                     <PokeCard img={pokemon.image} name={pokemon.name} />
                 ))}
             </PokemonsWrapper>
+            <button onClick={() => {
+                refetch({
+                    limit: 30,
+                    offset: offset,
+                })
+                setOffset(prevState => prevState + 30)
+            }}>Next Batch of Pokemons</button>
         </HomeWrapper>
     );
 };
