@@ -11,7 +11,7 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
     options?: QueryHookOptions<TData, TVariables>,
 ): QueryResultExtend<TData, TVariables> => {
     const result = useQuery<TData, TVariables>(query, options);
-    const [farin, setFarin] = useState<TData>();
+    const [resultData, setResultData] = useState<TData>();
     const [finish, setFinish] = useState(false);
     const [privateOptions, setPrivateOptions] = useState(options);
     const [loading, setLoading] = useState(true);
@@ -20,7 +20,6 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
 
     const handleRefetch = useCallback(async (variables?: Partial<TVariables>): Promise<ApolloQueryResult<TData>> => {
        setFinish(false);
-       console.log('refetchh', variables);
        setLoading(true)
         setPrivateOptions(variables);
        return result.refetch(variables);
@@ -37,21 +36,18 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
 
    useEffect(() => {
        (async function () {
-           console.log('result loading', loading, privateOptions)
            if (!loading || !isOnline) {
                const key = hash({privateOptions});
                if (!finish) {
                    if (result.data) {
                        set(key, result.data);
-                       console.log('tasya', result.data)
-                       setFarin(result.data);
+                       setResultData(result.data);
                        setFinish(true);
                        setLoading(false);
                        setFrom('network');
                    } else {
                        const tania = await get(key);
-                       console.log('from cache', key);
-                       setFarin(tania)
+                       setResultData(tania)
                        setFinish(true);
                        setLoading(false);
                        setFrom('cache');
@@ -61,7 +57,7 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
        }());
     }, [finish, isOnline, loading, options, privateOptions, result.data, result.loading]);
 
-    return {...result, data: farin, from, refetch: handleRefetch, loading: loading};
+    return {...result, data: resultData, from, refetch: handleRefetch, loading: loading};
 };
 
 export default useCustomQuery;
