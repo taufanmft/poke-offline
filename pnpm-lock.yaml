@@ -9,13 +9,17 @@ specifiers:
   '@testing-library/user-event': ^12.8.3
   '@types/jest': ^26.0.24
   '@types/node': ^12.20.47
+  '@types/object-hash': ^2.2.1
   '@types/react': ^16.14.24
   '@types/react-dom': ^16.9.14
   graphql: ^16.3.0
+  idb-keyval: ^6.1.0
+  object-hash: ^3.0.0
   react: ^18.0.0
   react-dom: ^18.0.0
   react-router-dom: '6'
   react-scripts: 5.0.1
+  rooks: ^5.11.0
   serve: ^13.0.2
   typescript: ^4.6.3
   web-vitals: ^0.2.4
@@ -44,10 +48,13 @@ dependencies:
   '@types/react': 16.14.24
   '@types/react-dom': 16.9.14
   graphql: 16.3.0
+  idb-keyval: 6.1.0
+  object-hash: 3.0.0
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
   react-router-dom: 6.3.0_react-dom@18.0.0+react@18.0.0
   react-scripts: 5.0.1_react@18.0.0+typescript@4.6.3
+  rooks: 5.11.0_react-dom@18.0.0+react@18.0.0
   serve: 13.0.2
   typescript: 4.6.3
   web-vitals: 0.2.4
@@ -63,6 +70,9 @@ dependencies:
   workbox-routing: 5.1.4
   workbox-strategies: 5.1.4
   workbox-streams: 5.1.4
+
+devDependencies:
+  '@types/object-hash': 2.2.1
 
 packages:
 
@@ -2418,6 +2428,10 @@ packages:
   /@types/node/12.20.47:
     resolution: {integrity: sha512-BzcaRsnFuznzOItW1WpQrDHM7plAa7GIDMZ6b5pnMbkqEtM/6WCOhvZar39oeMQP79gwvFUWjjptE7/KGcNqFg==}
     dev: false
+
+  /@types/object-hash/2.2.1:
+    resolution: {integrity: sha512-i/rtaJFCsPljrZvP/akBqEwUP2y5cZLOmvO+JaYnz01aPknrQ+hB5MRcO7iqCUsFaYfTG8kGfKUyboA07xeDHQ==}
+    dev: true
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -5515,6 +5529,12 @@ packages:
       postcss: 8.4.12
     dev: false
 
+  /idb-keyval/6.1.0:
+    resolution: {integrity: sha512-u/qHZ75rlD3gH+Zah8dAJVJcGW/RfCnfNrFkElC5RpRCnpsCXXhqjVk+6MoVKJ3WhmNbRYdI6IIVP88e+5sxGw==}
+    dependencies:
+      safari-14-idb-fix: 3.0.0
+    dev: false
+
   /idb/6.1.5:
     resolution: {integrity: sha512-IJtugpKkiVXQn5Y+LteyBCNk1N8xpGV3wWZk9EVtZWH8DYkjBn0bX1XnGP9RkyZF0sAcywa6unHqSWKe7q4LGw==}
     dev: false
@@ -8561,10 +8581,27 @@ packages:
       fsevents: 2.3.2
     dev: false
 
+  /rooks/5.11.0_react-dom@18.0.0+react@18.0.0:
+    resolution: {integrity: sha512-acyTuaYbB021hhHAN6uiU6QUUSuGucK9YOU16nOUM0oypqpckYm7nX5v9xnopoX4pNtrxzIM/mtjC8O7fF3/8A==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
+    dependencies:
+      lodash.debounce: 4.0.8
+      raf: 3.4.1
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
+    dev: false
+
   /run-parallel/1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+    dev: false
+
+  /safari-14-idb-fix/3.0.0:
+    resolution: {integrity: sha512-eBNFLob4PMq8JA1dGyFn6G97q3/WzNtFK4RnzT1fnLq+9RyrGknzYiM/9B12MnKAxuj1IXr7UKYtTNtjyKMBog==}
     dev: false
 
   /safe-buffer/5.1.2:
