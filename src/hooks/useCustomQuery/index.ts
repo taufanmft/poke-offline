@@ -4,10 +4,11 @@ import {DocumentNode, QueryResultExtend} from "./interfaces";
 import {useEffect, useState, useCallback} from "react";
 import hash from 'object-hash';
 import {ApolloQueryResult} from "@apollo/client/core/types";
-import {useOnline} from "rooks";
+import {useOnline} from "../useOnline";
 
 const useCustomQuery = <TData, TVariables = OperationVariables>(
     query: DocumentNode,
+    queryName: string,
     options?: QueryHookOptions<TData, TVariables>,
 ): QueryResultExtend<TData, TVariables> => {
     const result = useQuery<TData, TVariables>(query, options);
@@ -37,7 +38,7 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
    useEffect(() => {
        (async function () {
            if (!loading || !isOnline) {
-               const key = hash({privateOptions});
+               const key = hash({privateOptions, queryName: queryName});
                if (!finish) {
                    if (result.data) {
                        set(key, result.data);

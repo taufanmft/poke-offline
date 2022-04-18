@@ -35,7 +35,7 @@ const gqlVariables = {
 
 const Home = () => {
     const [offset, setOffset] = useState(31);
-    const { data, loading, from, refetch } = useCustomQuery<PokemonResponse>(GET_POKEMONS, {
+    const { data, loading, from, refetch } = useCustomQuery<PokemonResponse>(GET_POKEMONS, 'GET_POKEMONS', {
         variables: gqlVariables,
     });
     const pokemons = data?.pokemons?.results ?? [];
