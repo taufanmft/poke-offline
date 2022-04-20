@@ -1,0 +1,10 @@
+query GetTodos {
+  listTodoLists {
+    items
+    {
+      title
+      id
+      description
+    }
+  }
+}

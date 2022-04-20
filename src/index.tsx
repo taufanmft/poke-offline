@@ -15,19 +15,30 @@ import {
 } from "@apollo/client";
 import Tasya from './pages/tasya';
 import Home from "./pages/home";
+import TodoPage from "./pages/todo";
+import NewTodo from './pages/new';
 
 const client = new ApolloClient({
     uri: 'https://graphql-pokeapi.graphcdn.app/',
     cache: new InMemoryCache()
 });
 
+const secondClient = new ApolloClient({
+    uri: 'https://lanct552d5do5gb2mptuoai4lu.appsync-api.ap-southeast-1.amazonaws.com/graphql',
+    cache: new InMemoryCache(),
+    headers: {
+        'x-api-key': 'da2-rm4mqvietfhulpqbq664yjiifq'
+    },
+});
+
 ReactDOM.render(
   <React.StrictMode>
       <BrowserRouter>
-          <ApolloProvider client={client}>
+          <ApolloProvider client={secondClient}>
           <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<TodoPage />} />
               <Route path="/tasya" element={<Tasya />} />
+              <Route path="/new" element={<NewTodo />} />
           </Routes>
           </ApolloProvider>
       </BrowserRouter>
