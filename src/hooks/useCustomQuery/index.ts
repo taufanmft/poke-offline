@@ -28,6 +28,8 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
 
     useEffect(() => {
         if (result.data !== undefined) {
+            console.log('the data is changing')
+            setResultData(result.data);
             setLoading(false);
         }
         if (result.error) {
@@ -56,7 +58,7 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
                }
            }
        }());
-    }, [finish, isOnline, loading, options, privateOptions, result.data, result.loading]);
+    }, [finish, isOnline, loading, options, pHash, privateOptions, result.data, result.loading]);
 
     return {...result, data: resultData, from, refetch: handleRefetch, loading: loading, hash: pHash};
 };

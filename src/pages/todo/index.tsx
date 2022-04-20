@@ -3,6 +3,8 @@ import {useQuery} from "@apollo/client";
 import { loader } from 'graphql.macro';
 import useCustomQuery from "../../hooks/useCustomQuery";
 import {useNavigate} from "react-router-dom";
+import useDataSync from "../../hooks/useDataSync";
+import {useCallback} from "react";
 const GetTodos = loader('./queries/get-todos.graphql');
 
 type TodosResponse = {
@@ -16,8 +18,12 @@ type TodosResponse = {
 };
 
 const TodoPage = () => {
-    const { data, hash } = useCustomQuery<TodosResponse>(GetTodos, 'GetTodos');
+    const { data, hash, refetch } = useCustomQuery<TodosResponse>(GetTodos, 'GetTodos');
     const navigate = useNavigate();
+    const handleRefetch = useCallback(() => {
+        refetch();
+    }, [refetch]);
+    const { tasya } = useDataSync(handleRefetch);
     return (
         <HomeWrapper>
             <h1>Todo List Gan</h1>

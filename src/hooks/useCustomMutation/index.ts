@@ -4,6 +4,7 @@ import {TypedDocumentNode} from "@graphql-typed-document-node/core";
 import {MutationFunctionOptions, MutationHookOptions, MutationTuple} from "@apollo/client/react/types/types";
 import {useOnline} from "../useOnline";
 import {useCallback} from "react";
+import { v4 as uuidv4 } from 'uuid';
 import {get, set} from 'idb-keyval';
 
 
@@ -23,19 +24,21 @@ const useCustomMutation =
         } else {
             console.log('[mutation] offline. writing to queue')
             const existingQueue = await get('mutation-queue') as Array<any>;
-            existingQueue.forEach(val => console.log('the val', val))
+            // existingQueue.forEach(val => console.log('the val', val))
             if (existingQueue) {
                 set('mutation-queue', [
                     ...existingQueue,
                     {
                     options: options,
                     mutation: mutation,
+                    id: uuidv4(),
                 }]);
             } else {
                 set('mutation-queue', [
                     {
                         options: options,
                         mutation: mutation,
+                        id: uuidv4(),
                     }]);
             }
 

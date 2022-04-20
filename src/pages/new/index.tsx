@@ -21,6 +21,7 @@ const NewTodo = () => {
                             description: e.target[1].value
                     }
                 });
+                window.alert('sudah dikirim/add to queue');
 
             }}>
                 <label>Todo Title</label>
