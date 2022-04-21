@@ -6,9 +6,9 @@ import {useLocation} from "react-router-dom";
 const CreateTodo = loader('./mutations/create-todo.graphql');
 
 const NewTodo = () => {
-    const location = useLocation();
-    const [sendTodo, {data}] = useCustomMutation(CreateTodo);
-    console.log('location', location.state)
+    const { state } = useLocation();
+    const [sendTodo, {data}] = useCustomMutation(CreateTodo, {}, state.hash);
+    console.log('location', state.hash)
     return (
         <HomeWrapper>
             <form onSubmit={(e) => {
@@ -19,6 +19,12 @@ const NewTodo = () => {
                     variables: {
                             title: e.target[0].value,
                             description: e.target[1].value
+                    }
+                }, {
+                    arrayPath: 'listToDos.items',
+                    optimisticResponse: {
+                        title: e.target[0].value,
+                        description: e.target[1].value
                     }
                 });
                 window.alert('sudah dikirim/add to queue');

@@ -1,5 +1,5 @@
 mutation CreateTodo($description: String!, $title: String!) {
-  createTodoList(input: {description: $description, title: $title}) {
+  createToDo(input: {description: $description, title: $title}) {
     id
     title
     description

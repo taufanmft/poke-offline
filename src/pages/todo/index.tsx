@@ -8,7 +8,7 @@ import {useCallback} from "react";
 const GetTodos = loader('./queries/get-todos.graphql');
 
 type TodosResponse = {
-    listTodoLists: {
+    listToDos: {
         items: Array<{
             description: string;
             id: string;
@@ -21,6 +21,7 @@ const TodoPage = () => {
     const { data, hash, refetch } = useCustomQuery<TodosResponse>(GetTodos, 'GetTodos');
     const navigate = useNavigate();
     const handleRefetch = useCallback(() => {
+        console.log('sudah online. refetching')
         refetch();
     }, [refetch]);
     const { tasya } = useDataSync(handleRefetch);
@@ -28,7 +29,7 @@ const TodoPage = () => {
         <HomeWrapper>
             <h1>Todo List Gan</h1>
             <button onClick={() => navigate('/new', { state: {hash: hash}})}>Create New Todo</button>
-            {data?.listTodoLists.items.map(todo => (
+            {data?.listToDos?.items?.map(todo => (
                 <div style={{margin: '4px', border: 'solid', padding: '4px'}}>
                 <h2>{todo.title}</h2>
                     <p>{todo.description}</p>

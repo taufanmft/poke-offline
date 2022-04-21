@@ -6,25 +6,31 @@ import {useOnline} from "../useOnline";
 import {useCallback} from "react";
 import { v4 as uuidv4 } from 'uuid';
 import {get, set} from 'idb-keyval';
-
+import setArray from 'lodash/set';
+import getArray from 'lodash/get';
+type DataMutateOptions = {
+    arrayPath: string;
+    optimisticResponse: Record<string, unknown>;
+}
 
 const useCustomMutation =
     <TData = any,
         TVariables = OperationVariables,
         >(mutation: DocumentNode | TypedDocumentNode<TData, TVariables>,
-          options?: MutationHookOptions<TData, TVariables>): MutationTuple<TData, TVariables> => {
+          options?: MutationHookOptions<TData, TVariables>,
+          hash?: string,
+          ): MutationTuple<TData, TVariables> => {
     const [mutationFunction, mutationResult] = useMutation<TData, TVariables>(mutation, options);
     const isOnline = useOnline();
 
-    const handleMutation = useCallback(async (options?: MutationFunctionOptions<TData, TVariables>) => {
+    const handleMutation = useCallback(async (options?: MutationFunctionOptions<TData, TVariables>, dataOptions?: DataMutateOptions) => {
 
         if (isOnline) {
             console.log('[mutation] ini online')
-            mutationFunction(options);
+            return mutationFunction(options);
         } else {
             console.log('[mutation] offline. writing to queue')
             const existingQueue = await get('mutation-queue') as Array<any>;
-            // existingQueue.forEach(val => console.log('the val', val))
             if (existingQueue) {
                 set('mutation-queue', [
                     ...existingQueue,
@@ -41,6 +47,16 @@ const useCustomMutation =
                         id: uuidv4(),
                     }]);
             }
+            console.log('[mutation] data options is present:', Boolean(dataOptions), 'hash:', hash);
+            if (dataOptions) {
+                if (hash) {
+                    const existingData = await get(hash);
+                    const theArray = getArray(existingData, dataOptions.arrayPath);
+                    theArray.push(dataOptions.optimisticResponse);
+                    setArray(existingData, dataOptions.arrayPath, theArray);
+                    set(hash, existingData);
+                }
+            }
 
         }
 
@@ -50,7 +66,7 @@ const useCustomMutation =
             context: undefined,
         }
 
-    }, [isOnline, mutation, mutationFunction]);
+    }, [hash, isOnline, mutation, mutationFunction]);
 
 
     return [handleMutation, mutationResult]

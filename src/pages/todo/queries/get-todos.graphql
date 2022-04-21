@@ -1,5 +1,5 @@
 query GetTodos {
-  listTodoLists {
+  listToDos {
     items
     {
       title

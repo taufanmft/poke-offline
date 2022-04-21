@@ -42,7 +42,7 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
            if (!loading || !isOnline) {
                const key = pHash;
                if (!finish) {
-                   if (result.data) {
+                   if (result.data && isOnline) {
                        set(key, result.data);
                        setResultData(result.data);
                        setFinish(true);
