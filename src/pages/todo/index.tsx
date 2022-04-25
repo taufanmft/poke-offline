@@ -24,10 +24,11 @@ const TodoPage = () => {
         console.log('sudah online. refetching')
         refetch();
     }, [refetch]);
-    const { tasya } = useDataSync(handleRefetch);
+    const { isOnline } = useDataSync(handleRefetch);
     return (
         <HomeWrapper>
             <h1>Todo List Gan</h1>
+            <p>Online? {isOnline?.toString()}</p>
             <button onClick={() => navigate('/new', { state: {hash: hash}})}>Create New Todo</button>
             {data?.listToDos?.items?.map(todo => (
                 <div style={{margin: '4px', border: 'solid', padding: '4px'}}>

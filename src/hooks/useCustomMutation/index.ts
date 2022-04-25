@@ -13,6 +13,14 @@ type DataMutateOptions = {
     optimisticResponse: Record<string, unknown>;
 }
 
+/**
+ * Like Apollo's useMutation but with offline queue capabilities. Will pass through your mutation if online and write to mutation-queue if offline.
+ * @constructor
+ * @param mutation - Your mutation graphql file.
+ * @param options - The usual Apollo useMutation options.
+ * @param hash - The hash of the query that you want to modify. Leave blank if you didn't want to modify anything.
+ */
+
 const useCustomMutation =
     <TData = any,
         TVariables = OperationVariables,
