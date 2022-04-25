@@ -1,7 +1,7 @@
 import {get, set} from 'idb-keyval';
 import {OperationVariables, QueryHookOptions, useQuery} from '@apollo/client';
 import {DocumentNode, QueryResultExtend} from "./interfaces";
-import {useEffect, useState, useCallback} from "react";
+import {useEffect, useState, useCallback, useMemo} from "react";
 import hash from 'object-hash';
 import {ApolloQueryResult} from "@apollo/client/core/types";
 import {useOnline} from "../useOnline";
@@ -18,7 +18,7 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
     const [loading, setLoading] = useState(true);
     const [from, setFrom] = useState('network');
     const isOnline = useOnline();
-
+    const pHash = useMemo(() => hash({privateOptions, queryName: queryName}), [privateOptions, queryName]);
     const handleRefetch = useCallback(async (variables?: Partial<TVariables>): Promise<ApolloQueryResult<TData>> => {
        setFinish(false);
        setLoading(true)
@@ -28,6 +28,8 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
 
     useEffect(() => {
         if (result.data !== undefined) {
+            console.log('the data is changing')
+            setResultData(result.data);
             setLoading(false);
         }
         if (result.error) {
@@ -38,9 +40,9 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
    useEffect(() => {
        (async function () {
            if (!loading || !isOnline) {
-               const key = hash({privateOptions, queryName: queryName});
+               const key = pHash;
                if (!finish) {
-                   if (result.data) {
+                   if (result.data && isOnline) {
                        set(key, result.data);
                        setResultData(result.data);
                        setFinish(true);
@@ -56,9 +58,9 @@ const useCustomQuery = <TData, TVariables = OperationVariables>(
                }
            }
        }());
-    }, [finish, isOnline, loading, options, privateOptions, result.data, result.loading]);
+    }, [finish, isOnline, loading, options, pHash, privateOptions, result.data, result.loading]);
 
-    return {...result, data: resultData, from, refetch: handleRefetch, loading: loading};
+    return {...result, data: resultData, from, refetch: handleRefetch, loading: loading, hash: pHash};
 };
 
 export default useCustomQuery;

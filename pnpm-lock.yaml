@@ -4,16 +4,21 @@ specifiers:
   '@apollo/client': ^3.5.10
   '@emotion/react': ^11.9.0
   '@emotion/styled': ^11.8.1
+  '@graphql-typed-document-node/core': ^3.1.1
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^11.2.7
   '@testing-library/user-event': ^12.8.3
   '@types/jest': ^26.0.24
+  '@types/lodash': ^4.14.182
   '@types/node': ^12.20.47
   '@types/object-hash': ^2.2.1
   '@types/react': ^16.14.24
   '@types/react-dom': ^16.9.14
+  '@types/uuid': ^8.3.4
   graphql: ^16.3.0
+  graphql.macro: ^1.4.2
   idb-keyval: ^6.1.0
+  lodash: ^4.17.21
   object-hash: ^3.0.0
   react: ^18.0.0
   react-dom: ^18.0.0
@@ -22,6 +27,7 @@ specifiers:
   rooks: ^5.11.0
   serve: ^13.0.2
   typescript: ^4.6.3
+  uuid: ^8.3.2
   web-vitals: ^0.2.4
   workbox-background-sync: ^5.1.4
   workbox-broadcast-update: ^5.1.4
@@ -40,6 +46,7 @@ dependencies:
   '@apollo/client': 3.5.10_graphql@16.3.0+react@18.0.0
   '@emotion/react': 11.9.0_3a6d7a8f118fa32c75749d409482ab19
   '@emotion/styled': 11.8.1_303bf36b5436102fec4eac1e03ae4011
+  '@graphql-typed-document-node/core': 3.1.1_graphql@16.3.0
   '@testing-library/jest-dom': 5.16.4
   '@testing-library/react': 11.2.7_react-dom@18.0.0+react@18.0.0
   '@testing-library/user-event': 12.8.3
@@ -48,7 +55,9 @@ dependencies:
   '@types/react': 16.14.24
   '@types/react-dom': 16.9.14
   graphql: 16.3.0
+  graphql.macro: 1.4.2_graphql@16.3.0
   idb-keyval: 6.1.0
+  lodash: 4.17.21
   object-hash: 3.0.0
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
@@ -57,6 +66,7 @@ dependencies:
   rooks: 5.11.0_react-dom@18.0.0+react@18.0.0
   serve: 13.0.2
   typescript: 4.6.3
+  uuid: 8.3.2
   web-vitals: 0.2.4
   workbox-background-sync: 5.1.4
   workbox-broadcast-update: 5.1.4
@@ -72,7 +82,9 @@ dependencies:
   workbox-streams: 5.1.4
 
 devDependencies:
+  '@types/lodash': 4.14.182
   '@types/object-hash': 2.2.1
+  '@types/uuid': 8.3.4
 
 packages:
 
@@ -2421,6 +2433,10 @@ packages:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
     dev: false
 
+  /@types/lodash/4.14.182:
+    resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+    dev: true
+
   /@types/mime/1.3.2:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==}
     dev: false
@@ -2517,6 +2533,10 @@ packages:
   /@types/trusted-types/2.0.2:
     resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
     dev: false
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: true
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
@@ -3152,6 +3172,18 @@ packages:
       chalk: 4.1.2
       graceful-fs: 4.2.10
       slash: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /babel-literal-to-ast/2.1.0:
+    resolution: {integrity: sha512-CxfpQ0ysQ0bZOhlaPgcWjl79Em16Rhqc6++UAFn0A3duiXmuyhhj8yyl9PYbj0I0CyjrHovdDbp2QEKT7uIMxw==}
+    peerDependencies:
+      '@babel/core': ^7.1.2
+    dependencies:
+      '@babel/parser': 7.17.9
+      '@babel/traverse': 7.17.9
+      '@babel/types': 7.17.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -5283,6 +5315,19 @@ packages:
     dependencies:
       graphql: 16.3.0
       tslib: 2.3.1
+    dev: false
+
+  /graphql.macro/1.4.2_graphql@16.3.0:
+    resolution: {integrity: sha512-vcIaStPgS65gp5i1M3DSBimNVkyus0Z7k4VObWAyZS319tKlpX/TEIJSWTgOZU5k8dn4RRzGoS/elQhX2E6yBw==}
+    dependencies:
+      '@babel/template': 7.16.7
+      babel-literal-to-ast: 2.1.0
+      babel-plugin-macros: 2.8.0
+      graphql-tag: 2.12.6_graphql@16.3.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - graphql
+      - supports-color
     dev: false
 
   /graphql/16.3.0:

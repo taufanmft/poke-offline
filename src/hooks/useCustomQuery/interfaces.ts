@@ -5,6 +5,7 @@ export interface QueryResultExtend<TData, TVariables> extends QueryResult<TData,
     // fallback: boolean;
     // fallbackCreatedAt: string;
     from: string;
+    hash: string;
 }
 
 export type UseQuery = Parameters<typeof useQuery>;
